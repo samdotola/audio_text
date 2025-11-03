@@ -153,8 +153,39 @@ const TranscriptionPage = () => {
   };
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(transcription);
-    toast.success("Copied to clipboard!");
+    // Fallback copy method for browsers with clipboard permission issues
+    try {
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(transcription).then(() => {
+          toast.success("Copied to clipboard!");
+        }).catch(() => {
+          // Fallback to textarea method
+          fallbackCopy();
+        });
+      } else {
+        // Use fallback method directly
+        fallbackCopy();
+      }
+    } catch (error) {
+      fallbackCopy();
+    }
+  };
+
+  const fallbackCopy = () => {
+    const textarea = document.createElement("textarea");
+    textarea.value = transcription;
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+      document.execCommand("copy");
+      toast.success("Copied to clipboard!");
+    } catch (error) {
+      toast.error("Failed to copy");
+    }
+    document.body.removeChild(textarea);
   };
 
   const handleDownload = () => {
