@@ -255,9 +255,9 @@ const TranscriptionPage = () => {
                   <SelectTrigger className="w-full bg-[#1a1a24] border-gray-700 text-white" data-testid="language-selector">
                     <SelectValue placeholder="Select language" />
                   </SelectTrigger>
-                  <SelectContent className="bg-[#1a1a24] border-gray-700">
+                  <SelectContent className="bg-[#1a1a24] border-gray-700 z-[100]">
                     {languages.map((lang) => (
-                      <SelectItem key={lang.code} value={lang.code} className="text-white hover:bg-gray-800">
+                      <SelectItem key={lang.code} value={lang.code} className="text-white hover:bg-gray-800 cursor-pointer">
                         {lang.name}
                       </SelectItem>
                     ))}
